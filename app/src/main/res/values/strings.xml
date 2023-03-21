@@ -1,3 +1,14 @@
 <resources>
-    <string name="app_name">English-Dictionary</string>
+    <string name="app_name">Dictionary</string>
+
+    <string name="search_label">Search</string>
+    <string name="bookmarks_label">Bookmarks</string>
+    <string name="translate_label">Translate</string>
+    <string name="settings_label">Settings</string>
+    <string name="detail_label">Detail</string>
+    <string name="history_label">History</string>
+
+    <string name="no_connection_message">No Network Connection</string>
+    <string name="error_message">Your device appears to be offline</string>
+    <string name="try_again_label">Try again</string>
 </resources>
