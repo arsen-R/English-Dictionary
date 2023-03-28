@@ -22,8 +22,8 @@ fun SearchTopBar(
     openDrawer: () -> Unit,
     query: String,
     onValueChange: (String) -> Unit,
-    onSearch: (String) -> Unit,
-    onCleanSearchQuery: () -> Unit,
+    onSearch: () -> Unit,
+    onCleanSearchQuery: (String) -> Unit,
     onCloseSearch: () -> Unit,
     topState: Boolean
 ) {

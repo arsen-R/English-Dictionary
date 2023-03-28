@@ -38,8 +38,8 @@ fun AppTextField(
     modifier: Modifier = Modifier,
     query: String,
     onValueChange: (String) -> Unit,
-    onSearch: (String) -> Unit,
-    onCleanSearchText: () -> Unit
+    onSearch: () -> Unit,
+    onCleanSearchText: (String) -> Unit
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val interactionSource = remember { MutableInteractionSource() }
@@ -69,7 +69,7 @@ fun AppTextField(
             keyboardActions = KeyboardActions(
                 onSearch = {
                     if (query.isNotBlank() || query.isNotEmpty()) {
-                        onSearch(query)
+                        onSearch()
                     }
                     keyboardController?.hide()
                 }
@@ -103,7 +103,7 @@ fun AppTextField(
                 trailingIcon = {
                     if (query.isNotBlank() || query.isNotEmpty()) {
                         IconButton(onClick = {
-                            onCleanSearchText()
+                            onCleanSearchText("")
                             keyboardController?.hide()
                         }) {
                             Icon(

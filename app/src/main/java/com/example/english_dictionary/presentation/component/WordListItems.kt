@@ -7,12 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -27,10 +22,14 @@ import com.example.english_dictionary.R
 fun WordListItem(
     modifier: Modifier = Modifier,
     word: WordSearch,
-    onClick: () -> Unit
+    onNavigateTo: (String) -> Unit,
+    onRecentWord: (WordSearch) -> Unit
 ) {
     Card(
-        onClick = onClick,
+        onClick = {
+            onNavigateTo(word.id!!)
+            onRecentWord(word)
+        },
         modifier = modifier.padding(horizontal = 5.dp, vertical = 3.dp),
         shape = RoundedCornerShape(10f)
     ) {
@@ -55,6 +54,6 @@ fun WordListItem(
 fun WordListItemPreview() {
     EnglishDictionaryTheme {
         val word = WordSearch(label = "Have to")
-        WordListItem(word = word, onClick = {})
+        WordListItem(word = word, onNavigateTo = {}, onRecentWord = {})
     }
 }

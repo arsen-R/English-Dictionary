@@ -1,0 +1,127 @@
+package com.example.english_dictionary.presentation.screen.details
+
+import android.content.res.Configuration
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.example.english_dictionary.presentation.tabs.TabItem
+import com.example.english_dictionary.ui.theme.EnglishDictionaryTheme
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.pagerTabIndicatorOffset
+import com.google.accompanist.pager.rememberPagerState
+import kotlinx.coroutines.launch
+import java.util.*
+
+@Composable
+fun WordDetailScreen(
+    modifier: Modifier = Modifier,
+    navController: NavController,
+) {
+    WordDetailScreen(
+        navController = navController,
+        modifier = modifier,
+        viewModel = hiltViewModel()
+    )
+}
+
+@OptIn(ExperimentalPagerApi::class)
+@Composable
+internal fun WordDetailScreen(
+    modifier: Modifier = Modifier,
+    navController: NavController,
+    viewModel: WordDetailViewModel
+) {
+    val scaffoldState = rememberScaffoldState()
+    val wordId = viewModel.wordId
+    Scaffold(
+        scaffoldState = scaffoldState,
+        topBar = {
+            TopAppBar(
+                navigationIcon = {
+                    IconButton(onClick = { navController.navigateUp() }) {
+                        Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
+                    }
+                }, title = {}
+            )
+        },
+        modifier = modifier,
+    ) {
+        Box(modifier = modifier.padding(it)) {
+            val pagerState = rememberPagerState()
+            val coroutineState = rememberCoroutineScope()
+            val tabList = listOf(
+                TabItem("Definitions") { DefinitionScreen() },
+                TabItem("Thesaurus") { ThesaurusScreen() },
+            )
+
+            Column(modifier = modifier.fillMaxWidth()) {
+                TabRow(
+                    selectedTabIndex = pagerState.currentPage,
+                    indicator = { tabPositions ->
+                        TabRowDefaults.Indicator(
+                            modifier = modifier.pagerTabIndicatorOffset(pagerState, tabPositions),
+                            color = MaterialTheme.colors.secondary
+                        )
+                    }
+                ) {
+                    tabList.forEachIndexed { index, tab ->
+                        Tab(
+                            selected = pagerState.currentPage == index,
+                            onClick = {
+                                coroutineState.launch {
+                                    pagerState.animateScrollToPage(index)
+                                }
+                            },
+                            text = {
+                                Text(text = tab.title.uppercase())
+                            })
+                    }
+                }
+                HorizontalPager(
+                    count = tabList.size,
+                    state = pagerState
+                ) { page ->
+                    Column(modifier = modifier.fillMaxSize()) {
+                        tabList[page].screen()
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun DefinitionScreen(
+    modifier: Modifier = Modifier,
+) {
+    Column(modifier = modifier.fillMaxWidth()) {
+        Text(text = "Definition")
+    }
+}
+
+@Composable
+fun ThesaurusScreen(
+    modifier: Modifier = Modifier,
+) {
+    Column(modifier = modifier.fillMaxWidth()) {
+        Text(text = "Thesaurus")
+    }
+}
+
+@Preview(name = "Light Mode", showBackground = true)
+@Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
+@Composable
+fun WordDetailScreenPreview() {
+    EnglishDictionaryTheme() {
+        WordDetailScreen(navController = rememberNavController())
+    }
+}

@@ -23,18 +23,31 @@ import com.example.english_dictionary.ui.theme.EnglishDictionaryTheme
 @Composable
 fun RecentWordSearch(
     modifier: Modifier = Modifier,
-    word: WordSearch,
-    onClick: () -> Unit
+    words: List<WordSearch>,
+    onNavigateTo: (String) -> Unit,
+    onRecentWord: (WordSearch) -> Unit
 ) {
-    Chip(onClick = onClick, modifier.padding(horizontal = 5.dp), leadingIcon = {
-        Icon(
-            painter = painterResource(id = R.drawable.round_history_24),
-            contentDescription = null
-        )
-    }) {
-        Text(text = word.label!!, maxLines = 1, overflow = TextOverflow.Ellipsis)
+    FlowRow(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(5.dp)
+    ) {
+        words.forEach { word ->
+            Chip(onClick = {
+                onNavigateTo(word.id!!)
+                onRecentWord(word)
+            }, modifier.padding(horizontal = 5.dp), leadingIcon = {
+                Icon(
+                    painter = painterResource(id = R.drawable.round_history_24),
+                    contentDescription = null
+                )
+            }) {
+                Text(text = word.label!!, maxLines = 1, overflow = TextOverflow.Ellipsis)
+            }
+        }
     }
 }
+
 
 @Preview(name = "Light mode", showBackground = true)
 @Preview(name = "Dark mode", uiMode = UI_MODE_NIGHT_YES, showBackground = true)
@@ -42,6 +55,6 @@ fun RecentWordSearch(
 fun RecentWordSearchPreview() {
     EnglishDictionaryTheme {
         val words = WordSearch(label = "Have")
-        RecentWordSearch(word = words, onClick = {})
+        RecentWordSearch(words = listOf(words), onNavigateTo = {}, onRecentWord = {})
     }
 }

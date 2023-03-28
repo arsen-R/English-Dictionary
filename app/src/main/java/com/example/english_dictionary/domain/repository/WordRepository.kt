@@ -10,5 +10,7 @@ interface WordRepository {
 
     fun getRecentSearchedWord() : Flow<List<WordSearch>>
 
+    fun getAllRecentSearchedWords(): Flow<List<WordSearch>>
+
     suspend fun addRecentSearchedWord(wordSearch: WordSearch)
 }

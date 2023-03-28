@@ -1,6 +1,8 @@
 package com.example.english_dictionary.presentation.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.SavedStateHandle
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -8,7 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.english_dictionary.domain.util.Constant
 import com.example.english_dictionary.presentation.screen.bookmark.BookmarksScreen
-import com.example.english_dictionary.presentation.screen.details.DetailScreen
+import com.example.english_dictionary.presentation.screen.details.WordDetailScreen
 import com.example.english_dictionary.presentation.screen.history.HistoryScreen
 import com.example.english_dictionary.presentation.screen.search.SearchScreen
 import com.example.english_dictionary.presentation.screen.settings.SettingsScreen
@@ -37,7 +39,8 @@ fun NavGraph(
         }
         composable(route = Screen.History.route) {
             HistoryScreen(
-                onOpenDrawer = openDrawer
+                onOpenDrawer = openDrawer,
+                navController = navHostController
             )
         }
         composable(
@@ -45,10 +48,17 @@ fun NavGraph(
             arguments = listOf(
                 navArgument(Constant.WORD_ARGUMENT_KEY) { type = NavType.StringType }
             )
-        ) { backStackEntry ->
-            backStackEntry.arguments?.getString(Constant.WORD_ARGUMENT_KEY)?.let {
-                DetailScreen(wordId = it)
-            }
+        ) {
+            WordDetailScreen(navController = navHostController)
         }
     }
+}
+
+internal class WordArgs(val wordId: String) {
+    constructor(savedStateHandle: SavedStateHandle) :
+            this(checkNotNull(savedStateHandle[Constant.WORD_ARGUMENT_KEY]) as String)
+}
+
+fun NavController.toNavigateWordDetail(wordId: String) {
+    this.navigate(Screen.WordDetail.passWordId(wordId))
 }

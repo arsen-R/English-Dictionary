@@ -12,6 +12,8 @@ interface DictionaryDao {
     @Query("SELECT * FROM word_search_table ORDER BY date DESC LIMIT 20")
     fun getRecentSearchedWord(): Flow<List<WordSearchEntity>>
 
+    @Query("SELECT * FROM word_search_table ORDER BY date DESC")
+    fun getAllRecentSearchedWords(): Flow<List<WordSearchEntity>>
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addRecentWordSearch(wordSearch: WordSearchEntity): Long
 }

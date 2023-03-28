@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.*
 class WordSearchViewModel @Inject constructor(
     private val repository: WordRepositoryImpl
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow<SearchUiState>(SearchUiState.Loading)
+    private val _uiState = MutableStateFlow<SearchUiState>(SearchUiState.Empty)
     val uiState = _uiState.asStateFlow()
     private val _searchQuery = mutableStateOf("")
     val searchQuery: State<String> = _searchQuery
@@ -33,11 +33,9 @@ class WordSearchViewModel @Inject constructor(
         getRecentSearchedWord()
     }
     fun onSearch() {
-
         job?.cancel()
         job = viewModelScope.launch {
-            repository.getSearchWord(_searchQuery.value).collectLatest { result ->
-                _isSearched.value = true
+            repository.getSearchWord(_searchQuery.value).collect { result ->
                 _uiState.update {
                     when (result) {
                         is Results.Loading -> {
@@ -57,11 +55,13 @@ class WordSearchViewModel @Inject constructor(
 
     fun getSearchQuery(query: String) {
         _searchQuery.value = query
+        _isSearched.value = true
     }
 
     fun cleanSearchQuery() {
         _searchQuery.value = ""
         _isSearched.value = false
+        _uiState.value = SearchUiState.Empty
     }
 
     private fun getRecentSearchedWord() {
@@ -87,6 +87,7 @@ class WordSearchViewModel @Inject constructor(
 }
 
 sealed interface SearchUiState {
+    object Empty: SearchUiState
     object Loading: SearchUiState
     data class Success(val words: WordSearchResult): SearchUiState
     data class Error(val throwable: Throwable): SearchUiState

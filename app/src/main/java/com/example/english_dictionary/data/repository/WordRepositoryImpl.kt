@@ -40,8 +40,12 @@ class WordRepositoryImpl @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
-    override fun getRecentSearchedWord() = dao.getRecentSearchedWord().map { entities -> entities.map { it.toWordSearch() }}
+    override fun getRecentSearchedWord() =
+        dao.getRecentSearchedWord().map { entities -> entities.map { it.toWordSearch() }}.flowOn(Dispatchers.IO)
 
+
+    override fun getAllRecentSearchedWords() =
+        dao.getAllRecentSearchedWords().map { entities -> entities.map { it.toWordSearch() } }. flowOn(Dispatchers.IO)
 
     override suspend fun addRecentSearchedWord(wordSearch: WordSearch) {
         dao.addRecentWordSearch(wordSearch = wordSearch.toWordSearchEntity())
