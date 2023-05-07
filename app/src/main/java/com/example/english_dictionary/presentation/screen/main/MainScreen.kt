@@ -1,10 +1,13 @@
 package com.example.english_dictionary.presentation.screen.main
 
 import android.content.res.Configuration
+import androidx.compose.foundation.background
 import androidx.compose.material.DrawerValue
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ModalDrawer
 import androidx.compose.material.rememberDrawerState
 import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController

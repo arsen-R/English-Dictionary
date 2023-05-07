@@ -34,7 +34,8 @@ fun NavGraph(
         }
         composable(route = Screen.Settings.route) {
             SettingsScreen(
-                onOpenDrawer = openDrawer
+                onOpenDrawer = openDrawer,
+                navController = navHostController
             )
         }
         composable(route = Screen.History.route) {
@@ -57,6 +58,11 @@ fun NavGraph(
 internal class WordArgs(val wordId: String) {
     constructor(savedStateHandle: SavedStateHandle) :
             this(checkNotNull(savedStateHandle[Constant.WORD_ARGUMENT_KEY]) as String)
+}
+
+internal class SourceLangArgs(val sourceLang: Int) {
+    constructor(savedStateHandle: SavedStateHandle) :
+            this(checkNotNull(savedStateHandle[Constant.SOURCE_LANG_ARG_KEY]) as Int)
 }
 
 fun NavController.toNavigateWordDetail(wordId: String) {

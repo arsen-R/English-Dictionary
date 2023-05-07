@@ -1,12 +1,16 @@
 package com.example.english_dictionary.di
 
 import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.core.handlers.ReplaceFileCorruptionHandler
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.emptyPreferences
+import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.room.Room
 import com.example.english_dictionary.data.database.DictionaryDatabase
 import com.example.english_dictionary.data.database.dao.DictionaryDao
 import com.example.english_dictionary.data.network.WordService
-import com.example.english_dictionary.data.repository.WordRepositoryImpl
-import com.example.english_dictionary.domain.repository.WordRepository
 import com.example.english_dictionary.domain.util.Constant
 import dagger.Module
 import dagger.Provides
@@ -69,6 +73,13 @@ object AppModule {
     fun provideDictionaryDao(database: DictionaryDatabase): DictionaryDao = database.dictionaryDao()
 
     @Provides
-    fun provideWordRepository(wordService: WordService, dao: DictionaryDao): WordRepository =
-        WordRepositoryImpl(wordService = wordService, dao = dao)
+    @Singleton
+    fun provideDataStore(@ApplicationContext context: Context): DataStore<Preferences> {
+        return PreferenceDataStoreFactory.create(
+            corruptionHandler = ReplaceFileCorruptionHandler(
+                produceNewData = { emptyPreferences() }
+            ),
+            produceFile = { context.preferencesDataStoreFile("user_preferences") }
+        )
+    }
 }

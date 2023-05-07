@@ -2,10 +2,7 @@ package com.example.english_dictionary.presentation.component
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
@@ -24,13 +21,21 @@ fun TopBar(
     TopAppBar(
         modifier = Modifier.fillMaxWidth(),
         title = {
-            Text(text = title)
+            Text(
+                text = title,
+                color = MaterialTheme.colors.onPrimary
+            )
         },
         navigationIcon = {
             IconButton(onClick = openDrawer) {
-                Icon(imageVector = Icons.Default.Menu, contentDescription = null)
+                Icon(
+                    imageVector = Icons.Default.Menu,
+                    contentDescription = null,
+                    tint = MaterialTheme.colors.onPrimary
+                )
             }
-        }
+        },
+        backgroundColor = MaterialTheme.colors.primary
     )
 }
 

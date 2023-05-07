@@ -31,7 +31,8 @@ fun WordListItem(
             onRecentWord(word)
         },
         modifier = modifier.padding(horizontal = 5.dp, vertical = 3.dp),
-        shape = RoundedCornerShape(10f)
+        shape = RoundedCornerShape(10f),
+        backgroundColor = MaterialTheme.colors.primarySurface
     ) {
         Row(
             modifier = modifier

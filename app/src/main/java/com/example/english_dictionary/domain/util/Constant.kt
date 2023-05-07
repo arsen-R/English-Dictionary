@@ -1,5 +1,7 @@
 package com.example.english_dictionary.domain.util
 
+import androidx.datastore.preferences.core.intPreferencesKey
+
 object Constant {
     const val BASE_URL: String = "https://od-api.oxforddictionaries.com/api/v2/"
 
@@ -12,4 +14,8 @@ object Constant {
     const val DATABASE_NAME: String = "dictionary.db"
 
     const val WORD_ARGUMENT_KEY = "wordId"
+    const val SOURCE_LANG_ARG_KEY = "sourceLang"
+
+    const val THEME_PREFERENCES_KEY = "THEME_PREFERENCES"
+    const val SOURCE_LANGUAGE_KEY = "SOURCE_LANGUAGE"
 }

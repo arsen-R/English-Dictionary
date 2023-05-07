@@ -6,4 +6,6 @@ interface SettingsRepository {
     suspend fun savePreferenceSelection(key: String, selection: Int)
 
     suspend fun getThemePreferences(): Flow<Int?>
+
+    suspend fun getSourceLanguagePreferences(): Flow<Int?>
 }

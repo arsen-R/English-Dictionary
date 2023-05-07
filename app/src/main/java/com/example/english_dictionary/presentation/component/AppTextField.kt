@@ -54,13 +54,7 @@ fun AppTextField(
             onValueChange = onValueChange,
             modifier = modifier
                 .fillMaxWidth()
-                .background(color = Color.White, shape = RoundedCornerShape(25.dp))
-                .indicatorLine(
-                    enabled = true,
-                    isError = false,
-                    interactionSource = interactionSource,
-                    colors = colors
-                )
+                .background(color = MaterialTheme.colors.primary)
                 .height(40.dp),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
@@ -75,7 +69,7 @@ fun AppTextField(
                 }
             ),
             textStyle = TextStyle(
-                color = Color.Black,
+                color = MaterialTheme.colors.onPrimary,
                 fontSize = 16.sp
             ),
             maxLines = 1,
@@ -91,7 +85,7 @@ fun AppTextField(
                 placeholder = {
                     Text(
                         text = stringResource(id = R.string.search_label),
-                        color = Color.Black.copy(alpha = 0.5f)
+                        color = MaterialTheme.colors.onPrimary.copy(alpha = 0.5f)
                     )
                 },
                 leadingIcon = {
@@ -129,7 +123,7 @@ fun AppTextField(
 fun AppTextFieldPreview() {
     EnglishDictionaryTheme {
         AppTextField(
-            query = "",
+            query = "Have",
             onValueChange = {
 
             },

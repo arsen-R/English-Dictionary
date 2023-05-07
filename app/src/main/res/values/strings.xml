@@ -14,4 +14,17 @@
 
     <string name="recent_label">Recent</string>
     <string name="clear_all_label">Clear all</string>
+
+    <string name="antonym_label">Antonyms</string>
+    <string name="synonym_label">Synonyms</string>
+
+    <string name="personalise_label">Personalisation</string>
+    <string name="change_theme_label">Change Theme</string>
+    <string name="system_default_label">System Default</string>
+    <string name="light_theme_label">Light Theme</string>
+    <string name="dark_theme_label">Dark Theme</string>
+
+    <string name="change_source_language">Change Source Language</string>
+    <string name="gb_label">GB</string>
+    <string name="us_label">US</string>
 </resources>

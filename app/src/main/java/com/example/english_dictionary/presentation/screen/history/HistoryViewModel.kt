@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.english_dictionary.data.repository.WordRepositoryImpl
 import com.example.english_dictionary.domain.model.WordSearch
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -13,7 +14,8 @@ import javax.inject.Inject
 class HistoryViewModel @Inject constructor(
     private val repository: WordRepositoryImpl
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow<HistoryUiState>(HistoryUiState.Loading)
+    private val supervisorJob = MutableStateFlow<Job?>(null)
+    private val _uiState = MutableStateFlow<List<WordSearch>>(emptyList())
     val uiState = _uiState.asStateFlow()
 
     init {
@@ -22,30 +24,25 @@ class HistoryViewModel @Inject constructor(
 
     private fun getAllRecentSearchedWords() {
         viewModelScope.launch {
-            repository.getAllRecentSearchedWords()
-                .filterNot { it.isEmpty() }
-                .map<List<WordSearch>, HistoryUiState> {
-                    HistoryUiState.Success(it)
-                }
-                .onStart { emit(HistoryUiState.Loading) }
-                .collectLatest { state ->
-                    _uiState.update {
-                        when (state) {
-                            is HistoryUiState.Loading -> {
-                                HistoryUiState.Loading
-                            }
-                            is HistoryUiState.Success -> {
-                                HistoryUiState.Success(state.words)
-                            }
-                        }
-                    }
-                }
+            repository.getAllRecentSearchedWords().collectLatest { words ->
+                _uiState.value = words
+            }
         }
     }
 
     fun addLatestSearchedWord(wordSearch: WordSearch) {
-        viewModelScope.launch {
+        val job = viewModelScope.launch {
             repository.addRecentSearchedWord(wordSearch = wordSearch)
+        }
+        supervisorJob.value = job
+        job.invokeOnCompletion {
+            supervisorJob.value
+        }
+    }
+
+    fun deleteAllSearchedWord() {
+        viewModelScope.launch {
+            repository.deleteAllSearchedWord()
         }
     }
 }
@@ -53,4 +50,5 @@ class HistoryViewModel @Inject constructor(
 sealed interface HistoryUiState {
     object Loading : HistoryUiState
     data class Success(val words: List<WordSearch>) : HistoryUiState
+    object Idle : HistoryUiState
 }

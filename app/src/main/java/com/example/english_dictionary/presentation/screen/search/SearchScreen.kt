@@ -79,7 +79,9 @@ internal fun SearchScreen(
                             Text("Empty")
                         }
                         is SearchUiState.Error -> {
-                            ErrorMessageButton(onRetryClick = viewModel::onSearch)
+                            ErrorMessageButton(
+                                onRetryClick = viewModel::onSearch
+                            )
                         }
                         is SearchUiState.Empty -> Unit
                     }

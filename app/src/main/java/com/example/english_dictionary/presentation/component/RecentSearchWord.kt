@@ -1,14 +1,12 @@
 package com.example.english_dictionary.presentation.component
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Chip
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -33,15 +31,20 @@ fun RecentWordSearch(
             .padding(5.dp)
     ) {
         words.forEach { word ->
-            Chip(onClick = {
-                onNavigateTo(word.id!!)
-                onRecentWord(word)
-            }, modifier.padding(horizontal = 5.dp), leadingIcon = {
-                Icon(
-                    painter = painterResource(id = R.drawable.round_history_24),
-                    contentDescription = null
-                )
-            }) {
+            Chip(
+                onClick = {
+                    onNavigateTo(word.id!!)
+                    onRecentWord(word)
+                },
+                modifier
+                    .padding(horizontal = 5.dp),
+                leadingIcon = {
+                    Icon(
+                        painter = painterResource(id = R.drawable.round_history_24),
+                        contentDescription = null
+                    )
+                }
+            ) {
                 Text(text = word.label!!, maxLines = 1, overflow = TextOverflow.Ellipsis)
             }
         }

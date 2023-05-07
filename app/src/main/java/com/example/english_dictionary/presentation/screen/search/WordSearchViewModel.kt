@@ -2,6 +2,7 @@ package com.example.english_dictionary.presentation.screen.search
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.english_dictionary.data.repository.WordRepositoryImpl
@@ -12,11 +13,12 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import com.example.english_dictionary.data.network.result.*
 import com.example.english_dictionary.domain.model.WordSearch
+import com.example.english_dictionary.presentation.navigation.SourceLangArgs
 import kotlinx.coroutines.flow.*
 
 @HiltViewModel
 class WordSearchViewModel @Inject constructor(
-    private val repository: WordRepositoryImpl
+    private val repository: WordRepositoryImpl,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<SearchUiState>(SearchUiState.Empty)
     val uiState = _uiState.asStateFlow()

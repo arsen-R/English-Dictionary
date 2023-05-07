@@ -2,16 +2,26 @@ package com.example.english_dictionary.presentation.screen.details
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.english_dictionary.presentation.component.PronunciationItem
+import com.example.english_dictionary.presentation.component.PronunciationsRow
 import com.example.english_dictionary.presentation.tabs.TabItem
 import com.example.english_dictionary.ui.theme.EnglishDictionaryTheme
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -41,7 +51,7 @@ internal fun WordDetailScreen(
     viewModel: WordDetailViewModel
 ) {
     val scaffoldState = rememberScaffoldState()
-    val wordId = viewModel.wordId
+
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
@@ -59,8 +69,8 @@ internal fun WordDetailScreen(
             val pagerState = rememberPagerState()
             val coroutineState = rememberCoroutineScope()
             val tabList = listOf(
-                TabItem("Definitions") { DefinitionScreen() },
-                TabItem("Thesaurus") { ThesaurusScreen() },
+                TabItem("Definitions") { DefinitionScreen(viewModel = viewModel) },
+                TabItem("Thesaurus") { ThesaurusScreen(viewModel = viewModel) },
             )
 
             Column(modifier = modifier.fillMaxWidth()) {
@@ -82,7 +92,10 @@ internal fun WordDetailScreen(
                                 }
                             },
                             text = {
-                                Text(text = tab.title.uppercase())
+                                Text(
+                                    text = tab.title,
+                                    color = MaterialTheme.colors.secondary
+                                )
                             })
                     }
                 }
@@ -90,32 +103,13 @@ internal fun WordDetailScreen(
                     count = tabList.size,
                     state = pagerState
                 ) { page ->
-                    Column(modifier = modifier.fillMaxSize()) {
-                        tabList[page].screen()
-                    }
+                    tabList[page].screen()
                 }
             }
         }
     }
 }
 
-@Composable
-fun DefinitionScreen(
-    modifier: Modifier = Modifier,
-) {
-    Column(modifier = modifier.fillMaxWidth()) {
-        Text(text = "Definition")
-    }
-}
-
-@Composable
-fun ThesaurusScreen(
-    modifier: Modifier = Modifier,
-) {
-    Column(modifier = modifier.fillMaxWidth()) {
-        Text(text = "Thesaurus")
-    }
-}
 
 @Preview(name = "Light Mode", showBackground = true)
 @Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)

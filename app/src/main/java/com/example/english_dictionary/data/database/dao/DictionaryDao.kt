@@ -16,4 +16,7 @@ interface DictionaryDao {
     fun getAllRecentSearchedWords(): Flow<List<WordSearchEntity>>
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addRecentWordSearch(wordSearch: WordSearchEntity): Long
+
+    @Query("DELETE FROM word_search_table")
+    suspend fun deleteAllWordSearch()
 }

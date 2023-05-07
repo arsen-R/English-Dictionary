@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -60,7 +61,9 @@ fun NavigationDrawer(
                         }
                     },
                 elevation = 0.dp,
-                backgroundColor = if (currentRoute == drawer.route) Purple500 else Color.White,
+                backgroundColor = if (currentRoute == drawer.route) Color.Gray.copy(
+                    0.2f
+                ) else MaterialTheme.colors.surface,
                 shape = RoundedCornerShape(5.dp)
             ) {
                 Row(

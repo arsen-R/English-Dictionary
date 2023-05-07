@@ -13,6 +13,7 @@ buildscript {
         flow_layout_version = '0.29.2-rc'
         pager_version = '0.28.0'
         datastore_version = '1.0.0'
+        system_ui_controller_version = '0.28.0'
     }
     repositories {
         // other repositories...

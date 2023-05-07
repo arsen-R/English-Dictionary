@@ -84,11 +84,14 @@ dependencies {
     // Hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
+    //implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"
     implementation "androidx.hilt:hilt-navigation-compose:$hilt_navigation_version"
+
     // Accompanist
     implementation "com.google.accompanist:accompanist-flowlayout:$flow_layout_version"
     implementation "com.google.accompanist:accompanist-pager:$pager_version"
     implementation "com.google.accompanist:accompanist-pager-indicators:$pager_version"
+    implementation "com.google.accompanist:accompanist-systemuicontroller:$system_ui_controller_version"
     // Datastore
     implementation "androidx.datastore:datastore-preferences:$datastore_version"
 }
