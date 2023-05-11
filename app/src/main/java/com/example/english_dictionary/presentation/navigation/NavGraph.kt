@@ -29,7 +29,8 @@ fun NavGraph(
         }
         composable(route = Screen.Bookmarks.route) {
             BookmarksScreen(
-                onOpenDrawer = openDrawer
+                onOpenDrawer = openDrawer,
+                navigate = navHostController
             )
         }
         composable(route = Screen.Settings.route) {

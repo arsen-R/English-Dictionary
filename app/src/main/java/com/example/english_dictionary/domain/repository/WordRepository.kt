@@ -20,4 +20,13 @@ interface WordRepository {
     fun getThesaurusWord(wordId: String): Flow<Results<Word>>
 
     suspend fun deleteAllSearchedWord()
+
+    fun getAllSavedWord(): Flow<List<Word>>
+
+    suspend fun addWordEntity(word: Word)
+
+
+    suspend fun removeWordEntity(wordId: String)
+
+    fun isWordSaved(wordId: String): Boolean
 }

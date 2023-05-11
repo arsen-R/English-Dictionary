@@ -76,6 +76,22 @@ class WordDetailViewModel @Inject constructor(
             }
         }
     }
+
+    fun addWord(word: Word) {
+        viewModelScope.launch {
+            repository.addWordEntity(word)
+        }
+    }
+
+    fun removeWord(wordId: String) {
+        viewModelScope.launch {
+            repository.removeWordEntity(wordId)
+        }
+    }
+
+    fun isSavedWord(wordId: String): Boolean {
+        return repository.isWordSaved(wordId)
+    }
 }
 
 sealed interface DefinitionUiState {

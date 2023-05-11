@@ -66,7 +66,7 @@ object AppModule {
             context,
             DictionaryDatabase::class.java,
             Constant.DATABASE_NAME
-        ).allowMainThreadQueries()
+        ).allowMainThreadQueries().fallbackToDestructiveMigration()
             .build()
 
     @Provides

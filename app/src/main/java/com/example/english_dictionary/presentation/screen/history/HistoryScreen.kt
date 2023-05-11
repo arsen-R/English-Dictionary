@@ -20,7 +20,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.english_dictionary.R
 import com.example.english_dictionary.presentation.component.TopBar
-import com.example.english_dictionary.presentation.component.WordListItem
+import com.example.english_dictionary.presentation.component.SearchWordListItem
 import com.example.english_dictionary.presentation.navigation.toNavigateWordDetail
 import com.example.english_dictionary.ui.theme.EnglishDictionaryTheme
 
@@ -86,7 +86,7 @@ internal fun HistoryScreen(
                         EmptyHistoryScreen()
                     }
                     words.forEach { word ->
-                        WordListItem(
+                        SearchWordListItem(
                             word = word,
                             onNavigateTo = navController::toNavigateWordDetail,
                             onRecentWord = viewModel::addLatestSearchedWord

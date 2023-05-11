@@ -1,5 +1,6 @@
 package com.example.english_dictionary.data.mapper
 
+import com.example.english_dictionary.data.database.entity.WordEntity
 import com.example.english_dictionary.data.database.entity.WordSearchEntity
 import com.example.english_dictionary.data.network.dto.*
 import com.example.english_dictionary.domain.model.*
@@ -263,5 +264,19 @@ fun CrossReferenceDto.toCrossReference(): CrossReference {
 fun AntonymDto.toAntonym(): Antonym {
     return Antonym(
         language = this.language, text = this.text
+    )
+}
+
+fun Word.toWordEntity(): WordEntity {
+    return WordEntity(
+        id = this.id!!,
+        word = this.word
+    )
+}
+
+fun WordEntity.toWord(): Word {
+    return Word(
+        id = this.id,
+        word = this.word
     )
 }

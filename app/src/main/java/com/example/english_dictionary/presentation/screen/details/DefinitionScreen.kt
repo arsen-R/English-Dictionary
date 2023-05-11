@@ -19,6 +19,8 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.IconToggleButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -62,7 +64,10 @@ fun DefinitionScreen(
     DefinitionScreen(
         modifier = modifier,
         uiState = definitionUiState,
-        onRetryClick = { viewModel.getDefinitionWord() }
+        onRetryClick = { viewModel.getDefinitionWord() },
+        onAddWord = viewModel::addWord,
+        onRemoveWord = viewModel::removeWord,
+        isWordSaved = viewModel::isSavedWord
     )
 }
 
@@ -70,7 +75,10 @@ fun DefinitionScreen(
 internal fun DefinitionScreen(
     modifier: Modifier = Modifier,
     uiState: DefinitionUiState,
-    onRetryClick: () -> Unit
+    onRetryClick: () -> Unit,
+    onAddWord: (Word) -> Unit,
+    onRemoveWord: (String) -> Unit,
+    isWordSaved: (String) -> Boolean
 ) {
     val context = LocalContext.current
     when (uiState) {
@@ -98,6 +106,9 @@ internal fun DefinitionScreen(
                         )
                     ) {
                         with(uiState.word) {
+                            val isWordSaved =
+                                remember { mutableStateOf(isWordSaved(uiState.word.id!!)) }
+
                             Row(
                                 modifier = modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.spacedBy(
@@ -107,14 +118,23 @@ internal fun DefinitionScreen(
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 IconToggleButton(
-                                    checked = false,
-                                    onCheckedChange = {},
+                                    checked = isWordSaved.value,
+                                    onCheckedChange = {
+                                        isWordSaved.value = !isWordSaved.value
+                                        if (isWordSaved.value) {
+                                            onAddWord(uiState.word)
+                                        } else {
+                                            onRemoveWord(uiState.word.id!!)
+                                        }
+                                    },
                                     modifier = modifier.size(30.dp)
                                 ) {
                                     Icon(
-                                        painter = painterResource(
-                                            id = R.drawable.round_bookmark_border_24
-                                        ),
+                                        painter = if (isWordSaved.value)
+                                            painterResource(id = R.drawable.round_bookmark_24)
+                                        else
+                                            painterResource(id =
+                                                R.drawable.round_bookmark_border_24),
                                         contentDescription = null
                                     )
                                 }
@@ -123,10 +143,14 @@ internal fun DefinitionScreen(
                                     modifier = modifier.size(30.dp),
                                     onClick = {
                                         val copyManager = CopyManager()
-                                        copyManager.copyToClickBoard(context, copyWordText(uiState.word))
+                                        copyManager.copyToClickBoard(
+                                            context,
+                                            copyWordText(uiState.word)
+                                        )
 
                                         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2) {
-                                            Toast.makeText(context, "Copied", Toast.LENGTH_LONG).show()
+                                            Toast.makeText(context, "Copied", Toast.LENGTH_LONG)
+                                                .show()
                                         }
                                     },
                                 ) {
@@ -288,6 +312,12 @@ fun DefinitionScreenPreview() {
         val uiState = DefinitionUiState.Success(word)
         DefinitionScreen(
             uiState = uiState,
-            onRetryClick = {})
+            onRetryClick = {},
+            onAddWord = {},
+            onRemoveWord = {},
+            isWordSaved = {
+                false
+            }
+        )
     }
 }

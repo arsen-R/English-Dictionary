@@ -14,7 +14,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.english_dictionary.presentation.component.*
-import com.example.english_dictionary.presentation.navigation.Screen
 import com.example.english_dictionary.presentation.navigation.toNavigateWordDetail
 import com.example.english_dictionary.ui.theme.EnglishDictionaryTheme
 
@@ -68,7 +67,7 @@ internal fun SearchScreen(
                         is SearchUiState.Success -> if (uiState.words.results?.isNotEmpty()!!) {
                             LazyColumn(modifier = modifier.fillMaxSize()) {
                                 items(uiState.words.results) { word ->
-                                    WordListItem(
+                                    SearchWordListItem(
                                         word = word!!,
                                         onNavigateTo = navController::toNavigateWordDetail,
                                         onRecentWord = viewModel::addLatestSearchedWord

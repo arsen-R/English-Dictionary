@@ -13,6 +13,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -59,16 +60,23 @@ fun PronunciationItem(
         )
         pronunciation.audioFile?.let {
             val media = MediaPlayer.create(context, Uri.parse(it))
-            Icon(
-                painter = painterResource(id = R.drawable.round_volume_up_24),
-                contentDescription = null,
-                modifier = modifier
-                    .background(shape = CircleShape, color = MaterialTheme.colors.onBackground)
-                    .clickable {
-                        media.start()
-                    },
-                tint = MaterialTheme.colors.background
-            )
+            DisposableEffect(
+                Icon(
+                    painter = painterResource(id = R.drawable.round_volume_up_24),
+                    contentDescription = null,
+                    modifier = modifier
+                        .background(shape = CircleShape, color = MaterialTheme.colors.onBackground)
+                        .clickable {
+                            media.start()
+                        },
+                    tint = MaterialTheme.colors.background
+                )
+            ) {
+                onDispose {
+                    media.stop()
+                    media.release()
+                }
+            }
         }
     }
 }

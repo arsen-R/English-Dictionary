@@ -2,6 +2,7 @@ package com.example.english_dictionary.data.repository
 
 import com.example.english_dictionary.data.database.dao.DictionaryDao
 import com.example.english_dictionary.data.mapper.toWord
+import com.example.english_dictionary.data.mapper.toWordEntity
 import com.example.english_dictionary.data.mapper.toWordSearch
 import com.example.english_dictionary.data.mapper.toWordSearchEntity
 import com.example.english_dictionary.data.mapper.toWordSearchResult
@@ -87,5 +88,21 @@ class WordRepositoryImpl @Inject constructor(
 
     override suspend fun deleteAllSearchedWord() {
         dao.deleteAllWordSearch()
+    }
+
+    override fun getAllSavedWord(): Flow<List<Word>> {
+        return dao.getAllSavedWord().map { entity -> entity.map { it.toWord() } }
+    }
+
+    override suspend fun addWordEntity(word: Word) {
+        dao.addWordEntity(word.toWordEntity())
+    }
+
+    override suspend fun removeWordEntity(wordId: String) {
+        dao.deleteWord(wordId)
+    }
+
+    override fun isWordSaved(wordId: String): Boolean {
+        return dao.isWordSaved(wordId)
     }
 }

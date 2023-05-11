@@ -35,7 +35,7 @@ fun EnglishDictionaryTheme(
     val systemUIController = rememberSystemUiController()
     val colors = if (darkTheme) {
         systemUIController.setSystemBarsColor(Dark)
-        systemUIController.setNavigationBarColor(MaterialTheme.colors.background)
+        systemUIController.setNavigationBarColor(Dark)
         DarkColorPalette
     } else {
         systemUIController.setSystemBarsColor(Color.White)
