@@ -11,6 +11,7 @@
     <string name="no_connection_message">No Network Connection</string>
     <string name="error_message">Your device appears to be offline</string>
     <string name="try_again_label">Try again</string>
+    <string name="no_result_found">No result found</string>
 
     <string name="recent_label">Recent</string>
     <string name="clear_all_label">Clear all</string>

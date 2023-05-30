@@ -2,7 +2,6 @@ package com.example.english_dictionary.presentation.screen.search
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.english_dictionary.data.repository.WordRepositoryImpl
@@ -13,14 +12,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import com.example.english_dictionary.data.network.result.*
 import com.example.english_dictionary.domain.model.WordSearch
-import com.example.english_dictionary.presentation.navigation.SourceLangArgs
 import kotlinx.coroutines.flow.*
 
 @HiltViewModel
 class WordSearchViewModel @Inject constructor(
     private val repository: WordRepositoryImpl,
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow<SearchUiState>(SearchUiState.Empty)
+    private val _uiState = MutableStateFlow<SearchUiState>(SearchUiState.Idle)
     val uiState = _uiState.asStateFlow()
     private val _searchQuery = mutableStateOf("")
     val searchQuery: State<String> = _searchQuery
@@ -63,7 +61,7 @@ class WordSearchViewModel @Inject constructor(
     fun cleanSearchQuery() {
         _searchQuery.value = ""
         _isSearched.value = false
-        _uiState.value = SearchUiState.Empty
+        _uiState.value = SearchUiState.Idle
     }
 
     private fun getRecentSearchedWord() {
@@ -89,7 +87,7 @@ class WordSearchViewModel @Inject constructor(
 }
 
 sealed interface SearchUiState {
-    object Empty: SearchUiState
+    object Idle: SearchUiState
     object Loading: SearchUiState
     data class Success(val words: WordSearchResult): SearchUiState
     data class Error(val throwable: Throwable): SearchUiState

@@ -11,7 +11,6 @@ data class WordEntity(
     @PrimaryKey
     @NotNull
     val id: String,
-    //val results: List<WordResultEntity>? = null,
     val word: String? = null,
     val addDate: Date = Date()
 )
