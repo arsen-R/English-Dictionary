@@ -80,7 +80,7 @@ internal fun SearchScreen(
                                 }
                             }
                         } else {
-                            Text("Empty")
+                            EmptySearchScreen()
                         }
                         is SearchUiState.Error -> {
                             ErrorMessageButton(

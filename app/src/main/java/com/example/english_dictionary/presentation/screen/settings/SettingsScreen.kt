@@ -96,22 +96,6 @@ internal fun SettingsScreen(
                             currentValue = themeLabel
                         )
                     }
-
-//                    TextPreferences(
-//                        icon = painterResource(id = R.drawable.round_lightbulb_24),
-//                        title = stringResource(id = R.string.change_source_language),
-//                        subTitle = sourceLangLabel
-//                    ) {
-//                        showSourceLangDialog.value = !showSourceLangDialog.value
-//                    }
-//
-//                    if (showSourceLangDialog.value) {
-//                        ChangeSourceLang(
-//                            viewModel = viewModel,
-//                            showDialog = showSourceLangDialog,
-//                            currentValue = sourceLangLabel
-//                        )
-//                    }
                 }
             }
         }
